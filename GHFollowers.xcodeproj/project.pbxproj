@@ -39,7 +39,7 @@
 		CF179DEE25B527D200136C49 /* String+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		CF179DF125B5299800136C49 /* GFTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFTitleLabel.swift; sourceTree = "<group>"; };
 		CF179DF425B52B3500136C49 /* GFBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFBodyLabel.swift; sourceTree = "<group>"; };
-		CF179DF725B52BFF00136C49 /* GFAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GFAlertViewController.swift; path = Screens/GFAlertViewController.swift; sourceTree = "<group>"; };
+		CF179DF725B52BFF00136C49 /* GFAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAlertViewController.swift; sourceTree = "<group>"; };
 		CF179DFA25B52F2000136C49 /* GFAlertContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAlertContainerView.swift; sourceTree = "<group>"; };
 		CF179DFE25B5345100136C49 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,19 +74,11 @@
 		CF179DC125B4EE0A00136C49 /* GHFollowers */ = {
 			isa = PBXGroup;
 			children = (
+				CFB51EF925B5FFC700A757EF /* Support */,
 				CF179DED25B527A400136C49 /* Extensions */,
+				CFB51EF525B5FF3A00A757EF /* Custom Views */,
 				CF179DE125B4FB1E00136C49 /* Screens */,
-				CF179DC225B4EE0A00136C49 /* AppDelegate.swift */,
-				CF179DC425B4EE0A00136C49 /* SceneDelegate.swift */,
-				CF179DCB25B4EE0C00136C49 /* Assets.xcassets */,
-				CF179DCD25B4EE0C00136C49 /* LaunchScreen.storyboard */,
 				CF179DD025B4EE0C00136C49 /* Info.plist */,
-				CF179DE225B4FEEF00136C49 /* GFButton.swift */,
-				CF179DE725B5169E00136C49 /* GFTextField.swift */,
-				CF179DF125B5299800136C49 /* GFTitleLabel.swift */,
-				CF179DF425B52B3500136C49 /* GFBodyLabel.swift */,
-				CF179DF725B52BFF00136C49 /* GFAlertViewController.swift */,
-				CF179DFA25B52F2000136C49 /* GFAlertContainerView.swift */,
 			);
 			path = GHFollowers;
 			sourceTree = "<group>";
@@ -108,6 +100,38 @@
 				CF179DEE25B527D200136C49 /* String+Ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CFB51EF525B5FF3A00A757EF /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				CFB51EF825B5FFA700A757EF /* View Controllers */,
+				CF179DE225B4FEEF00136C49 /* GFButton.swift */,
+				CF179DE725B5169E00136C49 /* GFTextField.swift */,
+				CF179DF125B5299800136C49 /* GFTitleLabel.swift */,
+				CF179DF425B52B3500136C49 /* GFBodyLabel.swift */,
+				CF179DFA25B52F2000136C49 /* GFAlertContainerView.swift */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		CFB51EF825B5FFA700A757EF /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CF179DF725B52BFF00136C49 /* GFAlertViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		CFB51EF925B5FFC700A757EF /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				CF179DC225B4EE0A00136C49 /* AppDelegate.swift */,
+				CF179DC425B4EE0A00136C49 /* SceneDelegate.swift */,
+				CF179DCB25B4EE0C00136C49 /* Assets.xcassets */,
+				CF179DCD25B4EE0C00136C49 /* LaunchScreen.storyboard */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
