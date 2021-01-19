@@ -5,11 +5,12 @@
 //  Created by Jackson Chui on 1/18/21.
 //
 
-import Foundation
+import UIKit
 
 class NetworkManager {
     static let shared   = NetworkManager()
-    let baseURL         = "https://api.github.com/"
+    private let baseURL = "https://api.github.com/"
+    let cache            = NSCache<NSString, UIImage>()
     
     private init() {}
     
@@ -53,5 +54,35 @@ class NetworkManager {
         }
         
         task.resume() // starts network call
+    }
+    
+    func getImage(from urlString: String, completed: @escaping(Result<UIImage, GFError>) -> Void) {
+        let cacheKey = NSString(string: urlString)
+        if let image = self.cache.object(forKey: cacheKey ) {
+            completed(.success(image))
+            return
+        }
+        guard let url = URL(string: urlString) else {
+            completed(.failure(.unableToComplete))
+            return
+        }
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let _ = error {
+                completed(.failure(.unableToComplete))
+                return
+            }
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                completed(.failure(.invalidResponse))
+                return
+            }
+            guard let data = data else {
+                completed(.failure(.invalidData))
+                return
+            }
+            let image = UIImage(data: data)!
+            completed(.success(image))
+        }
+        
+        task.resume()
     }
 }
