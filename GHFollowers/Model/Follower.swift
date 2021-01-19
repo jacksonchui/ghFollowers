@@ -11,7 +11,13 @@
 
 import Foundation
 
-struct Follower: Codable {
+struct Follower: Codable, Hashable {
     var login: String
     var avatarUrl: String
+    
+    /* custom hash function
+     func hash(into hasher: inout Hasher) {
+        hasher.combine(login)
+     }
+     */
 }
