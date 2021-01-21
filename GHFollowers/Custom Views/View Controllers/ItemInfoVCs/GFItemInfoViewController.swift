@@ -15,12 +15,14 @@ class GFItemInfoViewController: UIViewController {
     let actionButton    = GFButton()
     
     var user: User!
+    weak var delegate: UserInfoViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackgroundView()
         layoutUI()
         configureStackView()
+        configureActionButton()
     }
     
     
@@ -48,6 +50,14 @@ class GFItemInfoViewController: UIViewController {
         
         stackView.addArrangedSubview(itemInfoView1)
         stackView.addArrangedSubview(itemInfoView2)
+    }
+    
+    private func configureActionButton() {
+        actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func actionButtonTapped() {
+        delegate.didTapGitHubProfile(for: user)
     }
     
     private func layoutUI() {

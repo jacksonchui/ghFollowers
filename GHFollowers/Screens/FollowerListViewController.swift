@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol FollowerListViewControllerDelegate: class {
+    func didRequestFollowers(for username: String)
+}
+
 class FollowerListViewController: UIViewController {
     
     enum Section { case main }
@@ -132,7 +136,8 @@ extension FollowerListViewController: UICollectionViewDelegate {
         let activeArray     = isSearching ? filteredFollowers : followers
         let follower        = activeArray[indexPath.item]
         let destVC          = UserInfoViewController()
-        destVC.username = follower.login
+        destVC.username     = follower.login
+        destVC.delegate     = self
         let navController   = UINavigationController(rootViewController: destVC)
         present(navController, animated: true)
     }
@@ -156,5 +161,18 @@ extension FollowerListViewController: UISearchResultsUpdating, UISearchBarDelega
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         isSearching = false
         updateData(on: followers)
+    }
+}
+
+extension FollowerListViewController: FollowerListViewControllerDelegate {
+    func didRequestFollowers(for username: String) {
+        self.username   = username
+        title           = username
+        page             = 1
+        followers.removeAll()
+        filteredFollowers.removeAll()
+        // collectionView.setContentOffset(.zero, animated: true)
+        updateData(on: followers) // this is less jarring
+        getFollowers(username: username, page: 1)
     }
 }

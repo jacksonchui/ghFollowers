@@ -6,6 +6,13 @@
 //
 
 import UIKit
+import SafariServices
+
+
+protocol UserInfoViewControllerDelegate: class {
+    func didTapGitHubProfile(for user: User)
+    func didTapGetFollowers(for user: User)
+}
 
 class UserInfoViewController: UIViewController {
 
@@ -16,6 +23,7 @@ class UserInfoViewController: UIViewController {
     var itemViews: [UIView]     = []
     
     var username: String!
+    weak var delegate: FollowerListViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,19 +45,28 @@ class UserInfoViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let user):
-                DispatchQueue.main.async{
-                    self.add(childVC: GFUserInfoHeaderViewController(user: user), to: self.headerView)
-                    self.add(childVC: GFRepoItemViewController(user: user), to: self.itemView1)
-                    self.add(childVC: GFFollowerItemViewController(user: user), to: self.itemView2)
-                }
+                DispatchQueue.main.async { self.configureUIElements(with: user) }
+                
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "something went wrong", message: error.rawValue, buttonTitle: "Ok")
             }
         }
     }
     
+    func configureUIElements(with user: User) {
+        let repoItemVC           = GFRepoItemViewController(user: user)
+        repoItemVC.delegate      = self
+        
+        let followerItemVC       = GFFollowerItemViewController(user: user)
+        followerItemVC.delegate  = self
+        
+        self.add(childVC: repoItemVC, to: self.itemView1)
+        self.add(childVC: followerItemVC, to: self.itemView2)
+        self.add(childVC: GFUserInfoHeaderViewController(user: user), to: self.headerView)
+        self.dateLabel.text = "Github since \(user.createdAt.convertToDisplayDateFormat())"
+    }
     
-    func layoutUI() {
+    private func layoutUI() {
         
         let padding: CGFloat = 20
         let itemHeight: CGFloat = 140
@@ -93,4 +110,25 @@ class UserInfoViewController: UIViewController {
         dismiss(animated: true)
     }
     
+}
+
+
+extension UserInfoViewController: UserInfoViewControllerDelegate {
+    func didTapGitHubProfile(for user: User) {
+        guard let url = URL(string: user.htmlUrl) else {
+            presentGFAlertOnMainThread(title: "Invalid URL", message: "The url attached to this user is invalid", buttonTitle: "Ok.")
+            return
+        }
+        
+        presentSafariVC(with: url)
+    }
+    
+    func didTapGetFollowers(for user: User) {
+        guard user.followers != 0 else {
+            presentGFAlertOnMainThread(title: "No followers", message: "This user has no followers. What a shame ☹️", buttonTitle: "So sad")
+            return
+        }
+        delegate.didRequestFollowers(for: user.login)
+        dismissVC()
+    }
 }
