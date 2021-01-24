@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         // MARK: - Tabbar Controller
-        let tabbar = createTabbar()
+        let tabbar = GFTabBarController()
         
         // MARK: - Navigation Controller
         configureNavigationBar()
@@ -26,32 +26,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.rootViewController = tabbar // default view controller
         window?.makeKeyAndVisible()
-    }
-    
-    func createSearchNC() -> UINavigationController {
-        // Configure the ViewController before using it.
-        let searchVC = SearchViewController()
-        searchVC.title = "Search"
-        searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-        
-        return UINavigationController(rootViewController: searchVC)
-    }
-    
-    // better to write a simpler second function...rather than 5 params
-    func createfavoritesNC() -> UINavigationController {
-        let favoritesListVC = FavoritesListViewController()
-        favoritesListVC.title = "Favorites"
-        favoritesListVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
-        
-        return UINavigationController(rootViewController: favoritesListVC)
-    }
-    
-    func createTabbar() -> UITabBarController {
-        let tabbar = UITabBarController()
-        UITabBar.appearance().tintColor = .systemGreen
-        tabbar.viewControllers = [createSearchNC(), createfavoritesNC()]
-        
-        return tabbar
     }
     
     func configureNavigationBar() {
