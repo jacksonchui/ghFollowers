@@ -8,14 +8,13 @@
 import UIKit
 
 class GFItemInfoViewController: UIViewController {
-
+    
     let stackView       = UIStackView()
     let itemInfoView1   = GFItemInfoView()
     let itemInfoView2   = GFItemInfoView()
     let actionButton    = GFButton()
     
     var user: User!
-    weak var delegate: UserInfoViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,13 +55,10 @@ class GFItemInfoViewController: UIViewController {
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
     }
     
-    @objc func actionButtonTapped() {
-        delegate.didTapGitHubProfile(for: user)
-    }
+    @objc func actionButtonTapped() { print("Should be overwritten") }
     
     private func layoutUI() {
-        view.addSubview(stackView)
-        view.addSubview(actionButton)
+        view.addSubviews(stackView, actionButton)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         let padding: CGFloat = 20
