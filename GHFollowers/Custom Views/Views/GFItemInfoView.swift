@@ -29,7 +29,7 @@ class GFItemInfoView: UIView {
     }
     
     
-    private func configure() {
+    func configure() {
         addSubview(symbolImageView)
         addSubview(titleLabel)
         addSubview(countLabel)

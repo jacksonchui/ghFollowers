@@ -23,14 +23,13 @@ class GFEmptyStateView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init (message: String) {
-        super.init(frame: .zero)
+    convenience init (message: String) {
+        self.init(frame: .zero)
         messageLabel.text = message
-        configure()
     }
     
     
-    private func configure() {
+    func configure() {
         addSubview(messageLabel)
         addSubview(logoImageView)
         

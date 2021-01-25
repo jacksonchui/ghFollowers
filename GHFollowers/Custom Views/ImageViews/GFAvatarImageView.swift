@@ -27,19 +27,8 @@ class GFAvatarImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func downloadImage(from urlString: String) {
-        NetworkManager.shared.getImage(from: urlString) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let image):
-                DispatchQueue.main.async { self.image = image }
-            case .failure(_):
-                return
-            }
-        }
-    }
-    
-    /*
+    /* This is the old way to download an image...we decided to refactor it to use the result
+     * type and sent back.
     func downloadImage(from urlString: String) {
         
         let cacheKey = NSString(string: urlString)

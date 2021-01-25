@@ -19,7 +19,7 @@ class GFAlertContainerView: UIView {
     }
     
     
-    private func configure() {
+    func configure() {
         layer.cornerRadius  = 16
         layer.borderWidth   = 2
         layer.borderColor   = UIColor.white.cgColor
