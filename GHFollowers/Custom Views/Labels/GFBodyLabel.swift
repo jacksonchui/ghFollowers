@@ -29,11 +29,10 @@ class GFBodyLabel: UILabel {
     private func configure() {
         textColor                           = .secondaryLabel
         font                                = UIFont.preferredFont(forTextStyle: .body)
-        adjustsFontSizeToFitWidth          = true
-        adjustsFontForContentSizeCategory = true
-        minimumScaleFactor                 = 0.75
+        adjustsFontSizeToFitWidth           = true
+        adjustsFontForContentSizeCategory   = true
+        minimumScaleFactor                  = 0.75
         lineBreakMode                       = .byWordWrapping
-        //configure body lines in the view
         translatesAutoresizingMaskIntoConstraints = false
     }
     

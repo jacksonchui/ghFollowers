@@ -165,8 +165,8 @@
 		CF6E458625B767AF002108B3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CF179DFA25B52F2000136C49 /* GFAlertContainerView.swift */,
 				CF6E458B25B76805002108B3 /* GFEmptyStateView.swift */,
+				CF179DFA25B52F2000136C49 /* GFAlertContainerView.swift */,
 				CF7FC9A825B8E71B00F779AD /* GFItemInfoView.swift */,
 			);
 			path = Views;

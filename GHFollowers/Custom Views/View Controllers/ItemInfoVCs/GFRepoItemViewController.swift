@@ -32,6 +32,7 @@ class GFRepoItemViewController: GFItemInfoViewController {
         configureItems()
     }
     
+    
     private func configureItems() {
         itemInfoView1.set(itemInfoType: .repos, withCount: user.publicRepos)
         itemInfoView2.set(itemInfoType: .gists, withCount: user.publicGists)

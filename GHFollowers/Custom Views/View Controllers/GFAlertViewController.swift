@@ -9,7 +9,6 @@ import UIKit
 
 class GFAlertViewController: UIViewController {
     
-    // TODO: Build GFContainerView
     let containerView   = GFAlertContainerView()
     let titleLabel      = GFTitleLabel(textAlignment: .center, fontSize: 20)
     let messageLabel    = GFBodyLabel(textAlignment: .center)
@@ -22,12 +21,10 @@ class GFAlertViewController: UIViewController {
     let padding: CGFloat = 20
     
     init(title: String, message: String, buttonTitle: String) {
-        super.init(nibName: nil, bundle: nil) // set this if you have have .xib file for UI
+        super.init(nibName: nil, bundle: nil)
         self.alertTitle     = title
         self.message        = message
         self.buttonTitle    = buttonTitle
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -38,6 +35,7 @@ class GFAlertViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
         view.addSubviews(containerView, titleLabel, actionButton, messageLabel)
+        
         configureContainerView()
         configureMessageTitleLabel()
         configureActionButton()
@@ -53,6 +51,7 @@ class GFAlertViewController: UIViewController {
         ])
     }
     
+    
     private func configureMessageTitleLabel() {
         titleLabel.text = alertTitle ?? "Something went wrong"
         
@@ -63,6 +62,7 @@ class GFAlertViewController: UIViewController {
             titleLabel.heightAnchor.constraint(equalToConstant: 28)
         ])
     }
+    
     
     private func configureActionButton() {
         actionButton.setTitle(buttonTitle ?? "Ok", for: .normal)
@@ -75,6 +75,7 @@ class GFAlertViewController: UIViewController {
             actionButton.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
+    
     
     private func configureMessageLabel() {
         messageLabel.text           = message ?? "Unable to complete request"

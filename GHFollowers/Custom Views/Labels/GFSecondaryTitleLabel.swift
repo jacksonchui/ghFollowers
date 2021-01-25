@@ -27,8 +27,8 @@ class GFSecondaryTitleLabel: UILabel {
     
     private func configure() {
         textColor                           = .secondaryLabel
-        adjustsFontForContentSizeCategory = true
-        minimumScaleFactor                 = 0.9
+        adjustsFontForContentSizeCategory   = true
+        minimumScaleFactor                  = 0.9
         lineBreakMode                       = .byTruncatingTail
         translatesAutoresizingMaskIntoConstraints = false
     }

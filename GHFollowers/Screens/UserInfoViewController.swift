@@ -34,11 +34,12 @@ class UserInfoViewController: GFDataLoadingViewController {
     }
     
     
-    fileprivate func configureViewController() {
+    private func configureViewController() {
         view.backgroundColor = .systemBackground
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.rightBarButtonItem = doneButton
     }
+    
     
     func configureScrollView() {
         view.addSubview(scrollView)
@@ -53,7 +54,7 @@ class UserInfoViewController: GFDataLoadingViewController {
     }
     
     
-    fileprivate func getUserInfo() {
+    func getUserInfo() {
         NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -66,7 +67,7 @@ class UserInfoViewController: GFDataLoadingViewController {
         }
     }
     
-    func configureUIElements(with user: User) {
+    private func configureUIElements(with user: User) {
         
         self.add(childVC: GFRepoItemViewController(user: user, delegate: self), to: self.itemView1)
         self.add(childVC: GFFollowerItemViewController(user: user, delegate: self), to: self.itemView2)
@@ -107,17 +108,15 @@ class UserInfoViewController: GFDataLoadingViewController {
     }
     
     
-    func add(childVC: UIViewController, to containerView: UIView) {
+    private func add(childVC: UIViewController, to containerView: UIView) {
         addChild(childVC)
         containerView.addSubview(childVC.view)
         childVC.view.frame = containerView.bounds
         childVC.didMove(toParent: self)
     }
     
-    @objc func dismissVC() {
-        dismiss(animated: true)
-    }
     
+    @objc func dismissVC() { dismiss(animated: true) }
 }
 
 extension UserInfoViewController: GFFollowerItemVCDelegate {

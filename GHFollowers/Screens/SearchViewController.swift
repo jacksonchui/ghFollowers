@@ -12,16 +12,14 @@ class SearchViewController: UIViewController {
     let logoImageView = UIImageView()
     let usernameTextField = GFTextField()
     let callToActionButton = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
-    var logoImageViewTopConstraint: NSLayoutConstraint!
     
     var isUsernameEntered: Bool {
         return !(usernameTextField.text!.isEmpty)
     }
     
     override func viewDidLoad() {
-        // only once when the view is loaded
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground // dark mode
+        view.backgroundColor = .systemBackground
         view.addSubviews(logoImageView, usernameTextField, callToActionButton)
         configureLogoImageView()
         configureTextField()
@@ -29,17 +27,19 @@ class SearchViewController: UIViewController {
         createDismissKeyboardTapGesture()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
-        // Happens every time the view appears
         super.viewWillAppear(animated)
         usernameTextField.text = ""
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
+    
     private func createDismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
     }
+    
     
     @objc func pushFollowersListVC() {
         guard isUsernameEntered else {
@@ -47,13 +47,12 @@ class SearchViewController: UIViewController {
             return
         }
         
-        usernameTextField.resignFirstResponder() // hides the keyboard
+        usernameTextField.resignFirstResponder()
         
         let followerListVC = FollowerListViewController(username: usernameTextField.text!)
         navigationController?.pushViewController(followerListVC, animated: true)
     }
     
-    // MARK: - Configure UIViews
     
     private func configureLogoImageView() {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -61,17 +60,14 @@ class SearchViewController: UIViewController {
         
         let topConstraintConstant: CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? 20 : 80
         
-        logoImageViewTopConstraint = logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraintConstant)
-        logoImageViewTopConstraint.isActive = true
-        
-        // Better than setting constraints to isActive
-        // about 4 constraints per object
         NSLayoutConstraint.activate([
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraintConstant),
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoImageView.heightAnchor.constraint(equalToConstant: 200),
             logoImageView.widthAnchor.constraint(equalToConstant: 200)
         ])
     }
+    
     
     private func configureTextField() {
         usernameTextField.delegate = self
@@ -83,6 +79,7 @@ class SearchViewController: UIViewController {
             usernameTextField.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
+    
     
     private func configureCallToActionButton() {
         callToActionButton.addTarget(self, action: #selector(pushFollowersListVC), for: .touchUpInside)

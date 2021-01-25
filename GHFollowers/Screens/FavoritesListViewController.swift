@@ -10,7 +10,7 @@ import UIKit
 class FavoritesListViewController: GFDataLoadingViewController {
     
     let tableView               = UITableView()
-    var favorites: [Follower] = []
+    var favorites: [Follower]  = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class FavoritesListViewController: GFDataLoadingViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getFavorites() // constantly refresh favorites
+        getFavorites()
     }
     
     private func configureViewController() {
@@ -49,20 +49,25 @@ class FavoritesListViewController: GFDataLoadingViewController {
             
             switch result {
             case .success(let favorites):
+                self.updateUI(with: favorites)
                 
-                if favorites.isEmpty {
-                    self.showEmptyStateView(with: "No Favorites?\nAdd on one the follower screen.", in: self.view)
-                } else {
-                    self.favorites = favorites
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData() // must reload data when changed
-                        self.view.bringSubviewToFront(self.tableView) // in-case we start with an empty state
-                    }
-                }
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
             }
             
+        }
+    }
+    
+    
+    func updateUI(with favorites: [Follower]) {
+        if favorites.isEmpty {
+            self.showEmptyStateView(with: "No Favorites?\nAdd on one the follower screen.", in: self.view)
+        } else {
+            self.favorites = favorites
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.view.bringSubviewToFront(self.tableView)
+            }
         }
     }
 }

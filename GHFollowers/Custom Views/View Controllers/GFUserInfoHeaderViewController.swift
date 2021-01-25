@@ -39,16 +39,17 @@ class GFUserInfoHeaderViewController: UIViewController {
     
     
     func configureUIElements() {
-        downloadAvatarImage()
-        usernameLabel.text      = user.login
-        nameLabel.text          = user.name ?? ""
-        locationLabel.text      = user.location ?? "No location"
-        bioLabel.text           = user.bio ?? "No bio available"
-        bioLabel.numberOfLines = 3
+        avatarImageView.downloadAvatarImage(fromURL: user.avatarUrl)
+        usernameLabel.text          = user.login
+        nameLabel.text              = user.name ?? ""
+        locationLabel.text          = user.location ?? "No location"
+        bioLabel.text               = user.bio ?? "No bio available"
+        bioLabel.numberOfLines      = 3
 
         locationImageView.image     = SFSymbols.location
         locationImageView.tintColor = .secondaryLabel
     }
+    
     
     func layoutUI() {
         let padding: CGFloat            = 20
@@ -64,7 +65,7 @@ class GFUserInfoHeaderViewController: UIViewController {
             usernameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
             usernameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: textImagePadding),
             usernameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            usernameLabel.heightAnchor.constraint(equalToConstant: 38), // little bigger than font size
+            usernameLabel.heightAnchor.constraint(equalToConstant: 38),
             
             nameLabel.centerYAnchor.constraint(equalTo: avatarImageView.centerYAnchor, constant: 8),
             nameLabel.leadingAnchor.constraint(equalTo: usernameLabel.leadingAnchor),
@@ -89,13 +90,4 @@ class GFUserInfoHeaderViewController: UIViewController {
         
     }
     
-    
-    func downloadAvatarImage() {
-        NetworkManager.shared.getImage(from: user.avatarUrl) { [weak self] image in
-            guard let self = self else { return }
-            DispatchQueue.main.async { self.avatarImageView.image = image }
-        }
-    }
-    
-
 }

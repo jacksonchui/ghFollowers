@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SafariServices
 
 class GFDataLoadingViewController: UIViewController {
     
@@ -15,8 +14,8 @@ class GFDataLoadingViewController: UIViewController {
     func showLoadingView() {
         containerView = UIView(frame: view.bounds)
         view.addSubview(containerView)
-        containerView.backgroundColor = .systemBackground
-        containerView.alpha            = 0 // slowly animate to 0.8
+        containerView.backgroundColor   = .systemBackground
+        containerView.alpha             = 0
         
         UIView.animate(withDuration: 0.25) { self.containerView.alpha = 0.8 }
         
@@ -33,6 +32,7 @@ class GFDataLoadingViewController: UIViewController {
         activityIndicator.startAnimating()
     }
     
+    
     func dismissLoadingView() {
         DispatchQueue.main.async {
             self.containerView.removeFromSuperview()
@@ -45,13 +45,6 @@ class GFDataLoadingViewController: UIViewController {
         let emptyStateView = GFEmptyStateView(message: message)
         emptyStateView.frame = view.bounds
         view.addSubview(emptyStateView)
-    }
-    
-    
-    func presentSafariVC(with url: URL) {
-        let safariVC = SFSafariViewController(url: url)
-        safariVC.preferredControlTintColor = .systemGreen
-        present(safariVC, animated: true)
     }
 
 }

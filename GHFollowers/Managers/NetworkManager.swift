@@ -23,37 +23,32 @@ class NetworkManager {
             return
         }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            // check for an error
             if let _ = error {
                 completed(.failure(.unableToComplete))
                 return
             }
             
-            // check for a completed response
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                 completed(.failure(.invalidResponse))
                 return
             }
             
-            // check for valid data
             guard let data = data else {
                 completed(.failure(.invalidData))
                 return
             }
             
-            // after handling everything we try catch when decoding the data
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 let followers = try decoder.decode([Follower].self, from: data)
                 completed(.success(followers))
             } catch {
-                // completed(nil, error.localizedDescription) // This is a no no no.
                 completed(.failure(.invalidData))
             }
         }
         
-        task.resume() // starts network call
+        task.resume()
     }
     
     func getUserInfo(for username: String, completed: @escaping(Result<User, GFError>) -> Void) {
@@ -64,25 +59,21 @@ class NetworkManager {
             return
         }
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            // check for an error
             if let _ = error {
                 completed(.failure(.unableToComplete))
                 return
             }
             
-            // check for a completed response
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                 completed(.failure(.invalidResponse))
                 return
             }
             
-            // check for valid data
             guard let data = data else {
                 completed(.failure(.invalidData))
                 return
             }
             
-            // after handling everything we try catch when decoding the data
             do {
                 let decoder                      = JSONDecoder()
                 decoder.keyDecodingStrategy     = .convertFromSnakeCase
@@ -90,16 +81,14 @@ class NetworkManager {
                 let user = try decoder.decode(User.self, from: data)
                 completed(.success(user))
             } catch {
-                // completed(nil, error.localizedDescription) // This is a no no no.
                 completed(.failure(.invalidData))
             }
         }
         
-        task.resume() // starts network call
+        task.resume()
     }
     
     func getImage(from urlString: String, completed: @escaping(UIImage?) -> Void) {
-        
         let cacheKey = NSString(string: urlString)
         
         if let image = cache.object(forKey: cacheKey ) {

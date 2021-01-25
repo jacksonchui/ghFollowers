@@ -85,31 +85,25 @@ class FollowerListViewController: GFDataLoadingViewController {
             
             switch result {
             case .success(let followers):
-                if followers.count < 100 { self.hasMoreFollowers = false }
-                self.followers.append(contentsOf: followers)
-                
-                if self.followers.isEmpty {
-                    let message = "This user doesn't have any followers. Go follow them 🤔"
-                    DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
-                    return
-                }
-                self.updateData(on: self.followers)
+                self.updateUI(with: followers)
                 
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Bad Stuff Happened", message: error.rawValue, buttonTitle: "Ok")
             }
         }
-        /* Old way of doing it with guard let, before Swift 5 Result
-        NetworkManager.shared.getFollowers(for: username, page: 1)
-        { (result) in
-            guard let followers = followers else {
-                self.presentGFAlertOnMainThread(title: "Bad Stuff Happened", message: errorMessage?.rawValue ?? "", buttonTitle: "Ok")
-                return
-            }
-            print("followers.count = \(followers.count)")
-            print(followers)
+    }
+    
+    
+    func updateUI(with newFollowers: [Follower]) {
+        if newFollowers.count < 100 { self.hasMoreFollowers = false }
+        self.followers.append(contentsOf: newFollowers)
+        
+        if self.followers.isEmpty {
+            let message = "This user doesn't have any followers. Go follow them 🤔"
+            DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
+            return
         }
-         */
+        self.updateData(on: self.followers)
     }
     
     
@@ -132,6 +126,8 @@ class FollowerListViewController: GFDataLoadingViewController {
     }
     
     
+    
+    
     @objc func addButtonTapped() {
         showLoadingView()
         isLoadingMoreFollowers = true
@@ -142,15 +138,7 @@ class FollowerListViewController: GFDataLoadingViewController {
             
             switch result {
             case .success(let user):
-                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
-                PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
-                    guard let self = self else { return }
-                    guard let error = error else {
-                        self.presentGFAlertOnMainThread(title: "Success!", message: "You have successfully favorite this user", buttonTitle: "Hooray")
-                        return
-                    }
-                    self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
-                }
+                self.addUserToFavorites(for: user)
                 
             case.failure(let error):
                 self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
@@ -159,9 +147,21 @@ class FollowerListViewController: GFDataLoadingViewController {
             self.isLoadingMoreFollowers = false
         }
     }
+    
+    
+    func addUserToFavorites(for user: User) {
+        let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+        PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
+            guard let self = self else { return }
+            guard let error = error else {
+                self.presentGFAlertOnMainThread(title: "Success!", message: "You have successfully favorite this user", buttonTitle: "Hooray")
+                return
+            }
+            self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+        }
+    }
 }
 
-// Gets you UIScrollViewDelegate, didTap
 extension FollowerListViewController: UICollectionViewDelegate {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -206,12 +206,11 @@ extension FollowerListViewController: UISearchResultsUpdating {
 
 extension FollowerListViewController: UserInfoViewControllerDelegate {
     func didRequestFollowers(for username: String) {
-        self.username   = username
-        title           = username
-        page             = 1
+        self.username       = username
+        title               = username
+        page                = 1
         followers.removeAll()
         filteredFollowers.removeAll()
-        // collectionView.setContentOffset(.zero, animated: true)
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
         getFollowers(username: username, page: 1)
     }

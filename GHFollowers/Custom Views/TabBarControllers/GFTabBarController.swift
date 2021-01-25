@@ -15,6 +15,7 @@ class GFTabBarController: UITabBarController {
         self.viewControllers            = [createSearchNC(), createfavoritesNC()]
     }
     
+    
     func createSearchNC() -> UINavigationController {
         // Configure the ViewController before using it.
         let searchVC = SearchViewController()
@@ -24,7 +25,7 @@ class GFTabBarController: UITabBarController {
         return UINavigationController(rootViewController: searchVC)
     }
     
-    // better to write a simpler second function...rather than 5 params
+    
     func createfavoritesNC() -> UINavigationController {
         let favoritesListVC = FavoritesListViewController()
         favoritesListVC.title = "Favorites"

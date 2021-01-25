@@ -16,14 +16,6 @@ class GFItemInfoViewController: UIViewController {
     
     var user: User!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureBackgroundView()
-        layoutUI()
-        configureStackView()
-        configureActionButton()
-    }
-    
     
     init(user: User) {
         super.init(nibName: nil, bundle: nil)
@@ -35,6 +27,15 @@ class GFItemInfoViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureBackgroundView()
+        layoutUI()
+        configureStackView()
+        configureActionButton()
+    }
+
     
     private func configureBackgroundView() {
         view.layer.cornerRadius = 18
@@ -51,11 +52,14 @@ class GFItemInfoViewController: UIViewController {
         stackView.addArrangedSubview(itemInfoView2)
     }
     
+    
     private func configureActionButton() {
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
     }
     
+    
     @objc func actionButtonTapped() { print("Should be overwritten") }
+    
     
     private func layoutUI() {
         view.addSubviews(stackView, actionButton)
